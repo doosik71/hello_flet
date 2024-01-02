@@ -109,6 +109,34 @@ async def layout_col_3_area(page: ft.Page) -> None:
         ], expand=True))
 
 
+async def layout_col_3_area_scroll(page: ft.Page) -> None:
+    page.title = "Hi flet!"
+    contents = [ft.Text(f'Large content - {i}') for i in range(100)]
+    
+    await page.add_async(
+        ft.Column([
+            ft.Text('Header', bgcolor=ft.colors.YELLOW_100),
+            ft.Divider(height=10),
+            ft.Column(contents, expand=True, scroll=ft.ScrollMode.ALWAYS),
+            ft.Divider(height=10),
+            ft.Text('Footer', bgcolor=ft.colors.YELLOW_100),
+        ], expand=True))
+
+
+async def layout_col_3_area_scroll_fullwidth(page: ft.Page) -> None:
+    page.title = "Hi flet!"
+    contents = [ft.Text(f'Large content - {i}') for i in range(100)]
+    
+    await page.add_async(
+        ft.Column([
+            ft.Text('Header', bgcolor=ft.colors.YELLOW_100),
+            ft.Divider(height=10),
+            ft.Row([ft.Column(contents, expand=True, scroll=ft.ScrollMode.ALWAYS)], expand=True),
+            ft.Divider(height=10),
+            ft.Text('Footer', bgcolor=ft.colors.YELLOW_100),
+        ], expand=True))
+
+
 async def layout_3x3(page: ft.Page) -> None:
     page.title = "Hi flet!"
 
@@ -157,9 +185,31 @@ async def layout_3x3_scroll(page: ft.Page) -> None:
         ], expand=True))
 
 
+async def layout_3x3_list_scroll(page: ft.Page) -> None:
+    page.title = "Hi flet!"
+
+    await page.add_async(
+        ft.Column([
+            ft.Text('Header', bgcolor=ft.colors.YELLOW_100),
+            ft.Divider(height=2),
+            ft.Row([
+                ft.Text('Left Pane', bgcolor=ft.colors.YELLOW_100),
+                ft.VerticalDivider(width=10),
+                ft.Column([ft.ListView([ft.Text(f'{i} Hi') for i in range(100)], width=300)],
+                          scroll=ft.ScrollMode.ALWAYS),
+                ft.Text('Right Pane', bgcolor=ft.colors.YELLOW_100, expand=True),
+            ],
+                expand=True,
+                vertical_alignment=ft.CrossAxisAlignment.START
+            ),
+            ft.Divider(height=2),
+            ft.Text('Footer', bgcolor=ft.colors.YELLOW_100),
+        ], expand=True))
+
+
 logger.info('Start test_flet module.')
 
-app = flet_fastapi.app(layout_3x3_scroll)
+app = flet_fastapi.app(layout_col_3_area_scroll_fullwidth)
 
 
 if __name__ == "__main__":
